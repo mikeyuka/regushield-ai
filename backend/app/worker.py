@@ -1,52 +1,36 @@
-from celery import Celery
+import logging
 from app.config import settings
 from app.scraper import scan_subreddits
 from app.notifications import send_webhook_notification
 
-celery_app = Celery(
-    "worker",
-    broker=settings.REDIS_URL,
-    backend=settings.REDIS_URL
-)
+logger = logging.getLogger(__name__)
 
-celery_app.conf.update(
-    task_serializer="json",
-    accept_content=["json"],
-    result_serializer="json",
-    timezone="UTC",
-    enable_utc=True,
-)
-
-@celery_app.task(name="app.worker.test_celery_task")
 def test_celery_task(word: str) -> str:
     return f"ReguShield AI received: {word}"
 
-@celery_app.task(name="app.worker.scheduled_reddit_scrape")
 def scheduled_reddit_scrape(limit: int = 10):
     """
-    Asynchronous Celery task that scans subreddits for compliance and brand
+    Asynchronous task that scans subreddits for compliance and brand
     protection panic posts and returns the matching results metadata.
     """
-    logger_celery = celery_app.log.get_default_logger()
-    logger_celery.info(f"Starting scheduled Reddit compliance scrape with limit={limit}...")
+    logger.info(f"Starting scheduled Reddit compliance scrape with limit={limit}...")
     results = scan_subreddits(limit=limit)
-    logger_celery.info(f"Finished scraping. Found {len(results)} matching posts.")
+    logger.info(f"Finished scraping. Found {len(results)} matching posts.")
     
     # Send webhook notification for each matching post
     for post in results:
         try:
-            logger_celery.info(f"Sending webhook notification for post: {post.get('title')}")
+            logger.info(f"Sending webhook notification for post: {post.get('title')}")
             send_webhook_notification(post)
         except Exception as e:
-            logger_celery.error(f"Error sending webhook notification for post: {e}", exc_info=True)
+            logger.error(f"Error sending webhook notification for post: {e}", exc_info=True)
             
     return results
 
 
-@celery_app.task(name="app.worker.process_document_verification")
 def process_document_verification(document_id: str) -> dict:
     """
-    Background Celery task that retrieves a SupplierDocument record,
+    Background task that retrieves a SupplierDocument record,
     updates its status to PROCESSING, parses the compliance document,
     saves raw text and extracted metadata, and evaluates validation status.
     """
@@ -56,8 +40,7 @@ def process_document_verification(document_id: str) -> dict:
     from app.models import SupplierDocument, DocValidationStatus
     from app.parser import parse_compliance_document, extract_text
 
-    logger_celery = celery_app.log.get_default_logger()
-    logger_celery.info(f"Starting process_document_verification for ID: {document_id}")
+    logger.info(f"Starting process_document_verification for ID: {document_id}")
 
     db = SessionLocal()
     try:
@@ -69,7 +52,7 @@ def process_document_verification(document_id: str) -> dict:
 
         doc = db.query(SupplierDocument).filter(SupplierDocument.id == doc_uuid).first()
         if not doc:
-            logger_celery.error(f"SupplierDocument with ID {document_id} not found.")
+            logger.error(f"SupplierDocument with ID {document_id} not found.")
             return {"status": "FAILED", "error": "Document not found"}
 
         # Update its status to PROCESSING
@@ -97,7 +80,7 @@ def process_document_verification(document_id: str) -> dict:
             return file_url
 
         physical_path = resolve_physical_path(doc.file_url)
-        logger_celery.info(f"Resolved physical path: {physical_path}")
+        logger.info(f"Resolved physical path: {physical_path}")
 
         # Extract raw text and parse compliance document
         raw_text = extract_text(physical_path)
@@ -134,7 +117,7 @@ def process_document_verification(document_id: str) -> dict:
             )
             
             if all_processed:
-                logger_celery.info(f"All documents for ComplianceRequest {comp_req.id} are processed. Triggering compilation...")
+                logger.info(f"All documents for ComplianceRequest {comp_req.id} are processed. Triggering compilation...")
                 comp_req.status = ComplianceStatus.COMPILING
                 db.commit()
                 
@@ -171,14 +154,14 @@ def process_document_verification(document_id: str) -> dict:
                     comp_req.generated_pdf_url = static_url
                     comp_req.status = ComplianceStatus.COMPLETED
                     db.commit()
-                    logger_celery.info(f"Compliance blueprint compilation completed successfully: {static_url}")
+                    logger.info(f"Compliance blueprint compilation completed successfully: {static_url}")
                 except Exception as comp_err:
-                    logger_celery.error(f"Error compiling compliance blueprint: {comp_err}", exc_info=True)
+                    logger.error(f"Error compiling compliance blueprint: {comp_err}", exc_info=True)
                     comp_req.status = ComplianceStatus.FAILED
                     comp_req.failed_reason = str(comp_err)
                     db.commit()
 
-        logger_celery.info(f"Finished process_document_verification. Status: {doc.status}")
+        logger.info(f"Finished process_document_verification. Status: {doc.status}")
         return {
             "status": doc.status.value,
             "document_id": document_id,
@@ -186,7 +169,7 @@ def process_document_verification(document_id: str) -> dict:
         }
 
     except Exception as e:
-        logger_celery.error(f"Error processing document verification: {e}", exc_info=True)
+        logger.error(f"Error processing document verification: {e}", exc_info=True)
         try:
             doc.status = DocValidationStatus.REJECTED
             doc.error_log = str(e)

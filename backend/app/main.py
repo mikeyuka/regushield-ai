@@ -4,7 +4,7 @@ import shutil
 import random
 import string
 from typing import Optional
-from fastapi import FastAPI, File, UploadFile, Form, HTTPException
+from fastapi import FastAPI, File, UploadFile, Form, HTTPException, BackgroundTasks
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
@@ -67,6 +67,7 @@ def healthcheck():
 
 @app.post(f"{settings.API_V1_STR}/upload")
 async def upload_file(
+    background_tasks: BackgroundTasks,
     file: UploadFile = File(...),
     doc_type: Optional[DocumentType] = Form(None)
 ):
@@ -138,8 +139,8 @@ async def upload_file(
         db.add(supplier_document)
         db.commit()
 
-        # Trigger Celery verification task asynchronously
-        process_document_verification.delay(str(supplier_document.id))
+        # Trigger verification task asynchronously using FastAPI BackgroundTasks
+        background_tasks.add_task(process_document_verification, str(supplier_document.id))
 
         return {
             "document_id": str(supplier_document.id),
@@ -155,16 +156,6 @@ async def upload_file(
         raise HTTPException(status_code=500, detail=f"Database integration failed: {str(e)}")
     finally:
         db.close()
-
-@app.get("/test-celery")
-def test_celery():
-    from app.worker import test_celery_task
-    task = test_celery_task.delay("FastAPI Live Connection Test")
-    return {
-        "message": "Task dispatched",
-        "task_id": task.id
-    }
-
 
 @app.get(f"{settings.API_V1_STR}/compliance/documents/{{document_id}}/status")
 def get_document_status(document_id: str):
