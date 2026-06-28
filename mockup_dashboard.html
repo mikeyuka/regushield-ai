@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ReguShield AI - Interactive Ingestion Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            background-color: #0B132B;
+            color: #E2E8F0;
+        }
+        .sidebar {
+            background-color: #1A365D;
+            width: 260px;
+        }
+        .card {
+            background-color: #1E293B;
+            border-color: #334155;
+        }
+        .dropzone {
+            background-color: #0F172A;
+            border-color: #334155;
+        }
+        .dropzone:hover {
+            border-color: #475569;
+            background-color: #131E35;
+        }
+    </style>
+</head>
+<body class="flex min-h-screen">
+    <!-- Sidebar -->
+    <div class="sidebar flex flex-col p-6 space-y-8 flex-shrink-0">
+        <div class="flex items-center space-x-3">
+            <div class="bg-emerald-500 p-2 rounded-lg">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-slate-900"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+            </div>
+            <h1 class="text-xl font-bold tracking-tight text-white">ReguShield AI</h1>
+        </div>
+        <nav class="flex-1 space-y-1">
+            <a href="#" class="flex items-center space-x-3 p-3 rounded-xl bg-emerald-500/10 text-emerald-400 font-bold border border-emerald-500/20">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"></rect><line x1="3" x2="21" y1="9" y2="9"></line><line x1="3" x2="21" y1="15" y2="15"></line><line x1="9" x2="9" y1="3" y2="21"></line></nav></a>
+                <span>Dashboard</span>
+            </a>
+            <a href="#" class="flex items-center space-x-3 p-3 rounded-xl text-slate-400 hover:bg-white/5 hover:text-white transition-all">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="5" rx="2"></rect><line x1="2" x2="22" y1="10" y2="10"></line></svg>
+                <span>Billing</span>
+            </a>
+            <a href="#" class="flex items-center space-x-3 p-3 rounded-xl text-slate-400 hover:bg-white/5 hover:text-white transition-all">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                <span>Settings</span>
+            </a>
+        </nav>
+        <div class="pt-6 border-t border-white/10 mt-auto">
+            <div class="bg-[#0F172A] p-4 rounded-xl">
+                <p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2">Account Balance</p>
+                <p class="text-xl font-black text-white">£1,420.50</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="flex-1 p-8 space-y-6 overflow-y-auto">
+        <!-- Banner -->
+        <div class="bg-gradient-to-r from-slate-800 to-slate-900 border border-slate-700/80 rounded-xl p-6 shadow-lg">
+            <h2 class="text-xl font-bold text-white flex items-center space-x-2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-emerald-400"><path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242"></path><path d="M12 12v9"></path><path d="m8 17 4 4 4-4"></path></svg>
+                <span>Interactive Ingestion & Audit Dashboard</span>
+            </h2>
+            <p class="text-xs text-slate-300 mt-1.5 leading-relaxed max-w-2xl">
+                Upload, parse, and validate safety data sheets, supply chain logs, or material compositions. Our pipeline automates cloud storage ingestion, advanced OCR text extraction, and Claude 3.5 Sonnet safety checks against REACH regulations.
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+            <!-- Left Panel: Dropzone -->
+            <div class="lg:col-span-5">
+                <div class="card border rounded-xl p-5 shadow-lg h-full">
+                    <h3 class="font-bold text-sm text-slate-200 mb-4 flex items-center justify-between">
+                        <span>Document Upload & Ingestion</span>
+                    </h3>
+
+                    <div class="dropzone border-2 border-dashed rounded-xl p-10 text-center cursor-pointer transition-all duration-200 select-none border-slate-700 bg-[#0F172A]">
+                        <div class="space-y-4">
+                            <div class="flex justify-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-slate-400"><path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242"></path><path d="M12 12v9"></path><path d="m8 17 4 4 4-4"></path></svg>
+                            </div>
+                            <div>
+                                <p class="text-sm font-semibold text-slate-200">Drag & drop supplier file here</p>
+                                <p class="text-xs text-slate-400 mt-1">
+                                    or <span class="text-emerald-400 font-bold hover:underline">browse computer</span>
+                                </p>
+                            </div>
+                            <p class="text-[10px] text-slate-500">Supports PDF, DOCX, or XLSX up to 50MB</p>
+                        </div>
+                    </div>
+
+                    <div class="mt-4 p-4 bg-[#0F172A] border border-slate-800 rounded-xl flex items-center justify-between opacity-60">
+                        <div class="flex items-center space-x-3">
+                            <div class="p-2 bg-slate-800 rounded-lg">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-indigo-400"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" x2="8" y1="13" y2="13"></line><line x1="16" x2="8" y1="17" y2="17"></line><line x1="10" x2="8" y1="9" y2="9"></line></svg>
+                            </div>
+                            <div>
+                                <p class="text-xs font-semibold text-white">Compound_Safety_Report_v2.pdf</p>
+                                <p class="text-[10px] text-slate-500">4.2 MB • PDF</p>
+                            </div>
+                        </div>
+                        <span class="text-[10px] font-bold text-slate-500 uppercase tracking-widest">Queued</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Panel: Ledger -->
+            <div class="lg:col-span-7">
+                <div class="card border rounded-xl overflow-hidden shadow-lg h-full flex flex-col">
+                    <div class="px-5 py-4 border-b border-slate-800 flex items-center justify-between">
+                        <div>
+                            <h3 class="font-bold text-base text-white">Recent Audits Ledger</h3>
+                            <p class="text-[10px] text-slate-400 mt-0.5">Track and export chemical composition compliance declarations</p>
+                        </div>
+                        <span class="bg-slate-800 text-slate-300 text-[10px] font-bold px-2 py-0.5 rounded border border-slate-700">4 Records</span>
+                    </div>
+
+                    <div class="overflow-x-auto flex-1">
+                        <table class="min-w-full divide-y divide-slate-800 text-sm">
+                            <thead class="bg-[#0F172A]">
+                                <tr>
+                                    <th class="px-4 py-3 text-left font-semibold text-slate-400 text-xs uppercase tracking-wider">Product Details</th>
+                                    <th class="px-4 py-3 text-left font-semibold text-slate-400 text-xs uppercase tracking-wider">Category</th>
+                                    <th class="px-4 py-3 text-left font-semibold text-slate-400 text-xs uppercase tracking-wider">Status</th>
+                                    <th class="px-4 py-3 text-right font-semibold text-slate-400 text-xs uppercase tracking-wider">Blueprint</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-800/60">
+                                <tr class="hover:bg-slate-800/40 transition-colors">
+                                    <td class="px-4 py-3">
+                                        <p class="font-semibold text-slate-200 text-xs truncate max-w-[180px]">Sulphur-Free Preservative Compound</p>
+                                        <p class="text-[10px] text-slate-400 mt-0.5 font-mono">SKU-89241</p>
+                                    </td>
+                                    <td class="px-4 py-3 text-xs text-slate-300">Preservatives</td>
+                                    <td class="px-4 py-3">
+                                        <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                                            <span class="h-1.5 w-1.5 rounded-full mr-1.5 bg-emerald-400"></span>
+                                            Validated
+                                        </span>
+                                    </td>
+                                    <td class="px-4 py-3 text-right">
+                                        <button class="p-1.5 rounded border border-emerald-500/20 bg-emerald-500/10 text-emerald-400 text-xs font-bold hover:bg-emerald-500 hover:text-slate-900 transition-all flex items-center space-x-1.5 ml-auto">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" x2="12" y1="15" y2="3"></line></svg>
+                                            <span>Blueprint</span>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-slate-800/40 transition-colors">
+                                    <td class="px-4 py-3">
+                                        <p class="font-semibold text-slate-200 text-xs truncate max-w-[180px]">Titanium Dioxide Ex-Alpha</p>
+                                        <p class="text-[10px] text-slate-400 mt-0.5 font-mono">SKU-10492</p>
+                                    </td>
+                                    <td class="px-4 py-3 text-xs text-slate-300">Colorants</td>
+                                    <td class="px-4 py-3">
+                                        <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-rose-500/15 text-rose-400 border border-rose-500/20">
+                                            <span class="h-1.5 w-1.5 rounded-full mr-1.5 bg-rose-400"></span>
+                                            Rejected
+                                        </span>
+                                    </td>
+                                    <td class="px-4 py-3 text-right">
+                                        <button class="p-1.5 rounded border border-slate-800 bg-slate-850 text-rose-400 hover:bg-rose-500/10 transition-all flex items-center space-x-1.5 ml-auto">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" x2="12" y1="15" y2="3"></line></svg>
+                                            <span>Details</span>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-slate-800/40 transition-colors">
+                                    <td class="px-4 py-3">
+                                        <p class="font-semibold text-slate-200 text-xs truncate max-w-[180px]">Ethanol Denatured 99%</p>
+                                        <p class="text-[10px] text-slate-400 mt-0.5 font-mono">SKU-31205</p>
+                                    </td>
+                                    <td class="px-4 py-3 text-xs text-slate-300">Solvents</td>
+                                    <td class="px-4 py-3">
+                                        <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-500/10 text-amber-400 border border-amber-500/20">
+                                            <span class="h-1.5 w-1.5 rounded-full mr-1.5 bg-amber-400 animate-pulse"></span>
+                                            Processing
+                                        </span>
+                                    </td>
+                                    <td class="px-4 py-3 text-right text-slate-500 italic text-[10px]">
+                                        Awaiting scan...
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="bg-[#0F172A] px-5 py-3 border-t border-slate-800/80 text-[10px] text-slate-400 flex items-center space-x-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-emerald-400"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        <span>Blueprints exported as safety-verified UK compliance tokens.</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

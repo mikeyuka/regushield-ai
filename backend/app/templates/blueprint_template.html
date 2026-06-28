@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>ReguShield AI - Product Compliance Blueprint</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 20mm;
+            @bottom-right {
+                content: counter(page);
+                font-family: 'Segoe UI', Helvetica, Arial, sans-serif;
+                font-size: 9pt;
+                color: #718096;
+            }
+            @bottom-left {
+                content: "ReguShield AI - Product Compliance Blueprint";
+                font-family: 'Segoe UI', Helvetica, Arial, sans-serif;
+                font-size: 9pt;
+                color: #718096;
+            }
+        }
+        
+        body {
+            font-family: 'Segoe UI', Helvetica, Arial, sans-serif;
+            color: #2D3748;
+            line-height: 1.6;
+            font-size: 10.5pt;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1, h2, h3, h4 {
+            color: #1A365D;
+            margin-top: 0;
+            font-weight: 600;
+        }
+
+        h1 {
+            font-size: 24pt;
+            border-bottom: 2px solid #1A365D;
+            padding-bottom: 8px;
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            font-size: 16pt;
+            border-bottom: 1px solid #E2E8F0;
+            padding-bottom: 6px;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            page-break-after: avoid;
+        }
+
+        .header-container {
+            display: table;
+            width: 100%;
+            margin-bottom: 30px;
+        }
+
+        .header-logo {
+            display: table-cell;
+            font-size: 20pt;
+            font-weight: bold;
+            color: #1A365D;
+            vertical-align: middle;
+        }
+
+        .header-meta {
+            display: table-cell;
+            text-align: right;
+            font-size: 9.5pt;
+            color: #4A5568;
+            vertical-align: middle;
+        }
+
+        .meta-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 25px;
+        }
+
+        .meta-table th, .meta-table td {
+            padding: 10px 12px;
+            text-align: left;
+            border-bottom: 1px solid #E2E8F0;
+        }
+
+        .meta-table th {
+            background-color: #F7FAFC;
+            color: #4A5568;
+            font-weight: 600;
+            width: 30%;
+        }
+
+        .meta-table td {
+            color: #2D3748;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 3px 8px;
+            font-size: 8.5pt;
+            font-weight: 600;
+            border-radius: 4px;
+            text-transform: uppercase;
+        }
+
+        .badge-success {
+            background-color: #C6F6D5;
+            color: #22543D;
+        }
+
+        .badge-danger {
+            background-color: #FED7D7;
+            color: #742A2A;
+        }
+
+        .badge-warning {
+            background-color: #FEFCBF;
+            color: #744210;
+        }
+
+        .badge-info {
+            background-color: #EBF8FF;
+            color: #2B6CB0;
+        }
+
+        .section-block {
+            margin-bottom: 25px;
+            page-break-inside: avoid;
+        }
+
+        .compliance-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        .compliance-table th, .compliance-table td {
+            padding: 10px 12px;
+            text-align: left;
+            border-bottom: 1px solid #E2E8F0;
+            font-size: 9.5pt;
+        }
+
+        .compliance-table th {
+            background-color: #1A365D;
+            color: white;
+            font-weight: 600;
+        }
+
+        .compliance-table tr:nth-child(even) {
+            background-color: #F7FAFC;
+        }
+
+        .compliance-table tr:hover {
+            background-color: #EDF2F7;
+        }
+
+        .risk-card {
+            background-color: #FFF5F5;
+            border-left: 4px solid #E53E3E;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 0 4px 4px 0;
+            page-break-inside: avoid;
+        }
+
+        .risk-card h3 {
+            color: #9B2C2C;
+            margin-top: 0;
+            margin-bottom: 8px;
+            font-size: 12pt;
+        }
+
+        .risk-card ul {
+            margin: 0;
+            padding-left: 20px;
+            color: #742A2A;
+        }
+
+        .next-steps-list {
+            padding-left: 20px;
+            margin-top: 10px;
+        }
+
+        .next-steps-list li {
+            margin-bottom: 8px;
+        }
+
+        .footer-note {
+            margin-top: 40px;
+            font-size: 8.5pt;
+            color: #718096;
+            text-align: center;
+            border-top: 1px solid #E2E8F0;
+            padding-top: 15px;
+            page-break-inside: avoid;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header-container">
+        <div class="header-logo">ReguShield AI</div>
+        <div class="header-meta">
+            <strong>Date:</strong> {{ header_date }}<br>
+            <strong>Version:</strong> 1.0 (Final)
+        </div>
+    </div>
+
+    <h1>Product Compliance Blueprint</h1>
+
+    <!-- SECTION I: PRODUCT SPECIFICATION SUMMARY -->
+    <div class="section-block">
+        <h2>Section I: Product Specification Summary</h2>
+        <table class="meta-table">
+            <tr>
+                <th>SKU</th>
+                <td><code>{{ product.sku }}</code></td>
+            </tr>
+            <tr>
+                <th>Product Name</th>
+                <td><strong>{{ product.name }}</strong></td>
+            </tr>
+            <tr>
+                <th>Category</th>
+                <td>{{ product.category }}</td>
+            </tr>
+            <tr>
+                <th>Target Market(s)</th>
+                <td><span class="badge badge-info">{{ product.destination_market }}</span></td>
+            </tr>
+        </table>
+    </div>
+
+    <!-- SECTION II: DOCUMENT VERIFICATION LEDGER -->
+    <div class="section-block">
+        <h2>Section II: Document Verification Ledger</h2>
+        <p style="font-size: 9.5pt; color: #4A5568; margin-top: -5px; margin-bottom: 15px;">
+            The following table lists the verification and accreditation status of all uploaded compliance documents.
+        </p>
+        <table class="compliance-table">
+            <thead>
+                <tr>
+                    <th style="width: 30%;">Document Name / Type</th>
+                    <th style="width: 25%;">Testing Laboratory</th>
+                    <th style="width: 15%;">Accreditation</th>
+                    <th style="width: 15%;">Expiry Date</th>
+                    <th style="width: 15%;">Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for result in validation_results %}
+                <tr>
+                    <td>
+                        <div style="font-weight: 600;">{{ result.file_name }}</div>
+                        <div style="font-size: 8pt; color: #718096;">Type: {{ result.doc_type }}</div>
+                    </td>
+                    <td>{{ result.extracted_metadata.testing_laboratory or "N/A" }}</td>
+                    <td>
+                        {% if result.extracted_metadata.is_accredited %}
+                        <span style="color: #22543D; font-weight: bold;">Yes</span>
+                        {% else %}
+                        <span style="color: #742A2A; font-weight: bold;">No</span>
+                        {% endif %}
+                    </td>
+                    <td>{{ result.extracted_metadata.expiration_date or "N/A" }}</td>
+                    <td>
+                        {% if result.status == "VALIDATED" %}
+                        <span class="badge badge-success">Validated</span>
+                        {% elif result.status == "REJECTED" %}
+                        <span class="badge badge-danger">Rejected</span>
+                        {% else %}
+                        <span class="badge badge-warning">{{ result.status }}</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- SECTION III: HARMONIZED STANDARDS CHECKED -->
+    <div class="section-block">
+        <h2>Section III: Harmonized Standards Checked</h2>
+        <p style="font-size: 9.5pt; color: #4A5568; margin-top: -5px; margin-bottom: 15px;">
+            Evaluation of cited regulatory standards against validation requirements.
+        </p>
+        <table class="compliance-table">
+            <thead>
+                <tr>
+                    <th style="width: 35%;">Standard Reference</th>
+                    <th style="width: 45%;">Source Document</th>
+                    <th style="width: 20%;">Assessment</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% set standards_found = [] %}
+                {% for result in validation_results %}
+                    {% if result.extracted_metadata.standards_cited %}
+                        {% for std in result.extracted_metadata.standards_cited %}
+                            {% if std not in standards_found %}
+                                {% set _ = standards_found.append(std) %}
+                                <tr>
+                                    <td><code>{{ std }}</code></td>
+                                    <td>{{ result.file_name }}</td>
+                                    <td>
+                                        {% if result.status == "VALIDATED" %}
+                                        <span class="badge badge-success">Compliant</span>
+                                        {% else %}
+                                        <span class="badge badge-warning">Needs Review</span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                {% endfor %}
+                {% if not standards_found %}
+                <tr>
+                    <td colspan="3" style="text-align: center; color: #718096; font-style: italic;">No specific standards were explicitly detected or cited in the uploaded documents.</td>
+                </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- SECTION IV: RISK ASSESSMENT & NEXT STEPS -->
+    <div class="section-block">
+        <h2>Section IV: Risk Assessment & Next Steps</h2>
+        
+        {% set expired_docs = [] %}
+        {% set high_risk_hazards = [] %}
+        {% set rejected_docs = [] %}
+        {% set unaccredited_labs = [] %}
+
+        {% for result in validation_results %}
+            {% if result.status == "REJECTED" %}
+                {% set _ = rejected_docs.append(result.file_name) %}
+            {% endif %}
+            {% if result.extracted_metadata.declaration_of_conformity_status == "EXPIRED" %}
+                {% set _ = expired_docs.append(result) %}
+            {% endif %}
+            {% if result.extracted_metadata.hazards_identified %}
+                {% for hz in result.extracted_metadata.hazards_identified %}
+                    {% if hz not in high_risk_hazards %}
+                        {% set _ = high_risk_hazards.append(hz) %}
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+            {% if not result.extracted_metadata.is_accredited and result.extracted_metadata.testing_laboratory and result.extracted_metadata.testing_laboratory != "UNKNOWN" %}
+                {% set _ = unaccredited_labs.append(result.extracted_metadata.testing_laboratory) %}
+            {% endif %}
+        {% endfor %}
+
+        {% if expired_docs or high_risk_hazards or rejected_docs or unaccredited_labs %}
+        <div class="risk-card">
+            <h3>Compliance Alert: High & Medium Risks Flagged</h3>
+            <ul>
+                {% if expired_docs %}
+                <li><strong>Expired Certification:</strong> Documents were detected as expired:
+                    <ul>
+                        {% for d in expired_docs %}
+                        <li>{{ d.file_name }} (Expired on {{ d.extracted_metadata.expiration_date }})</li>
+                        {% endfor %}
+                    </ul>
+                </li>
+                {% endif %}
+                {% if high_risk_hazards %}
+                <li><strong>Hazardous Materials:</strong> Potential safety hazards identified: {{ high_risk_hazards | join(', ') }}.</li>
+                {% endif %}
+                {% if unaccredited_labs %}
+                <li><strong>Unaccredited Laboratory:</strong> Testing performed by unaccredited laboratory: {{ unaccredited_labs | join(', ') }}.</li>
+                {% endif %}
+                {% if rejected_docs %}
+                <li><strong>Document Rejection:</strong> {{ rejected_docs | length }} document(s) failed verification check.</li>
+                {% endif %}
+            </ul>
+        </div>
+        {% else %}
+        <div style="background-color: #F0FFF4; border-left: 4px solid #38A169; padding: 15px; margin-bottom: 20px; border-radius: 0 4px 4px 0; color: #22543D;">
+            <h3 style="color: #276749; margin-top: 0; margin-bottom: 8px; font-size: 12pt;">Compliance Status: Satisfactory</h3>
+            All checked documents passed standard automated verifications. No hazardous materials or expired files have been flagged in this run.
+        </div>
+        {% endif %}
+
+        <h3>Actionable Next Steps</h3>
+        <ol class="next-steps-list">
+            {% if expired_docs %}
+                {% for d in expired_docs %}
+                <li><strong>Request Updated Documentation:</strong> Obtain a renewed compliance certificate for {{ d.file_name }} since the current document expired on {{ d.extracted_metadata.expiration_date }}.</li>
+                {% endfor %}
+            {% endif %}
+            {% if high_risk_hazards %}
+                <li><strong>Chemical / Material Testing:</strong> Initiate chemical laboratory screening tests specifically targeting: {{ high_risk_hazards | join(', ') }} to confirm chemical compliance levels.</li>
+            {% endif %}
+            {% if unaccredited_labs %}
+                <li><strong>Re-test with Accredited Lab:</strong> Arrange product testing via an ISO/IEC 17025 accredited laboratory (such as SGS, TUV, or Intertek) to replace unaccredited reports.</li>
+            {% endif %}
+            {% if rejected_docs %}
+                <li><strong>Correct Document Gaps:</strong> Investigate and resolve the issues with the rejected document(s) ({{ rejected_docs | join(', ') }}). Ensure signatures, dates, and SKU references match product specs.</li>
+            {% endif %}
+            {% if not expired_docs and not high_risk_hazards and not unaccredited_labs and not rejected_docs %}
+                <li><strong>Continuous Monitoring:</strong> Schedule a compliance review in 12 months to verify if any harmonized standards have been updated or replaced by EU/UK/US regulators.</li>
+                <li><strong>Secure Archive:</strong> Store these validated documents in your central repository for quick access during customs or market surveillance audits.</li>
+            {% endif %}
+        </ol>
+    </div>
+
+    <div class="footer-note">
+        <p>This compliance blueprint is generated automatically by ReguShield AI based on supplier document verification logs.</p>
+        <p>&copy; 2026 ReguShield AI. All rights reserved.</p>
+    </div>
+
+</body>
+</html>
