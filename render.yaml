@@ -1,0 +1,56 @@
+services:
+  - type: web
+    name: backend-api
+    runtime: docker
+    dockerContext: backend
+    dockerfilePath: Dockerfile
+    plan: free
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: regushield-db
+          property: connectionString
+      - key: REDIS_URL
+        fromService:
+          type: redis
+          name: regushield-redis
+          property: connectionString
+      - key: ANTHROPIC_API_KEY
+        sync: false
+      - key: STRIPE_SECRET_KEY
+        sync: false
+      - key: GOCARDLESS_ACCESS_TOKEN
+        sync: false
+      - key: PYTHONPATH
+        value: /app
+
+  - type: worker
+    name: celery-worker
+    runtime: docker
+    dockerContext: backend
+    dockerfilePath: Dockerfile
+    startCommand: celery -A app.worker.celery_app worker --loglevel=info
+    plan: free
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: regushield-db
+          property: connectionString
+      - key: REDIS_URL
+        fromService:
+          type: redis
+          name: regushield-redis
+          property: connectionString
+      - key: ANTHROPIC_API_KEY
+        sync: false
+      - key: PYTHONPATH
+        value: /app
+
+databases:
+  - name: regushield-db
+    plan: free
+
+redis:
+  - name: regushield-redis
+    plan: free
+    ipAllowList: [] # Only allow internal connections
