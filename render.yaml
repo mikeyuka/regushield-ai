@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: backend-api
+    name: regushield-api-mike
     runtime: docker
     dockerContext: backend
     dockerfilePath: Dockerfile
@@ -9,12 +9,12 @@ services:
     envVars:
       - key: DATABASE_URL
         fromDatabase:
-          name: regushield-db
+          name: regushield-db-mike
           property: connectionString
       - key: REDIS_URL
         fromService:
           type: redis
-          name: regushield-redis
+          name: regushield-redis-mike
           property: connectionString
       - key: ANTHROPIC_API_KEY
         sync: false
@@ -26,7 +26,7 @@ services:
         value: /app
 
   - type: worker
-    name: celery-worker
+    name: regushield-worker-mike
     runtime: docker
     dockerContext: backend
     dockerfilePath: Dockerfile
@@ -35,12 +35,12 @@ services:
     envVars:
       - key: DATABASE_URL
         fromDatabase:
-          name: regushield-db
+          name: regushield-db-mike
           property: connectionString
       - key: REDIS_URL
         fromService:
           type: redis
-          name: regushield-redis
+          name: regushield-redis-mike
           property: connectionString
       - key: ANTHROPIC_API_KEY
         sync: false
@@ -48,10 +48,10 @@ services:
         value: /app
 
 databases:
-  - name: regushield-db
+  - name: regushield-db-mike
     plan: free
 
 redis:
-  - name: regushield-redis
+  - name: regushield-redis-mike
     plan: free
     ipAllowList: [] # Only allow internal connections

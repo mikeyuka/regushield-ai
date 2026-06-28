@@ -53,7 +53,7 @@ Configure the following environment variables in your hosting provider's dashboa
 
 ## 5. Verification
 Once deployed, verify the health status:
-- API: `https://your-app-url.com/health`
+- API: `https://regushield-api-mike.onrender.com/health`
 - Expected Response: `{"status": "healthy", "service": "ReguShield AI", "database": "connected"}`
 
 ## 6. Deploying the Frontend (Vercel/Netlify)
@@ -63,7 +63,7 @@ Once deployed, verify the health status:
 2. **Framework Preset**: `Vite`.
 3. **Root Directory**: `frontend/`.
 4. **Environment Variables**:
-   - Add `VITE_API_URL`: Set this to your deployed backend URL (e.g., `https://api.regushield.app`). **Note**: Do not include a trailing slash.
+   - Add `VITE_API_URL`: Set this to your deployed backend URL (e.g., `https://regushield-api-mike.onrender.com`). **Note**: Do not include a trailing slash.
 5. **Build & Deploy**: Click Deploy. The `vercel.json` file in the frontend folder will handle client-side routing automatically.
 
 ### Netlify Deployment
