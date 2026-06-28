@@ -47,11 +47,11 @@ services:
       - key: PYTHONPATH
         value: /app
 
+  - type: redis
+    name: regushield-redis-mike
+    plan: free
+    ipAllowList: [] # Only allow internal connections
+
 databases:
   - name: regushield-db-mike
     plan: free
-
-redis:
-  - name: regushield-redis-mike
-    plan: free
-    ipAllowList: [] # Only allow internal connections
