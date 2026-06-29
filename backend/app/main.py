@@ -4,6 +4,7 @@ import shutil
 import random
 import string
 from typing import Optional
+from contextlib import asynccontextmanager
 from fastapi import FastAPI, File, UploadFile, Form, HTTPException, BackgroundTasks
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
@@ -13,6 +14,7 @@ from app.database import SessionLocal
 from app.models import DocumentType, Product, ComplianceRequest, SupplierDocument, ComplianceStatus, DocValidationStatus
 from app.worker import process_document_verification
 from app.payments import create_stripe_payment_intent, create_gocardless_billing_request
+from app.init_db import init_db
 
 class PaymentRequest(BaseModel):
     amount: int
@@ -25,9 +27,19 @@ UPLOAD_DIR = os.path.join(BASE_DIR, "uploads")
 # Automatically create local upload storage directory on startup
 os.makedirs(UPLOAD_DIR, exist_ok=True)
 
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Startup: Initialize database tables
+    try:
+        init_db()
+    except Exception as e:
+        print(f"Error during database initialization: {e}")
+    yield
+
 app = FastAPI(
     title=settings.PROJECT_NAME,
-    openapi_url=f"{settings.API_V1_STR}/openapi.json"
+    openapi_url=f"{settings.API_V1_STR}/openapi.json",
+    lifespan=lifespan
 )
 
 app.add_middleware(

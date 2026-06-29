@@ -5,7 +5,6 @@ services:
     dockerContext: backend
     dockerfilePath: Dockerfile
     dockerCommand: uvicorn app.main:app --host 0.0.0.0 --port 10000
-    preDeployCommand: python app/init_db.py
     plan: free
     envVars:
       - key: DATABASE_URL
