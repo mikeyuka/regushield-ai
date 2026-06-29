@@ -22,4 +22,4 @@ services:
 
 databases:
   - name: regushield-db-mike
-    plan: starter
+    plan: basic-1gb
