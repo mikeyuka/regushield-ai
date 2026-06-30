@@ -13,6 +13,7 @@ import {
 } from 'lucide-react';
 
 const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+const STRIPE_PK = import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY || 'pk_test_51TnvNtBqjDN4EbZhsxi2TkEmhucllMjFUknKnsvPMTlfOLpcs3rEyTgAWiwD1WQ26wyM9KzjyVC8ktpHVAAGpUv300uqOiEzSR';
 
 export default function BillingCheckout() {
   const [email, setEmail] = useState('mikeukaria@yahoo.com');
