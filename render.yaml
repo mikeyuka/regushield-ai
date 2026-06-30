@@ -2,7 +2,7 @@ services:
   - type: web
     name: regushield-api-mike-v2
     runtime: docker
-    dockerContext: backend
+    dockerContext: .
     plan: starter
     envVars:
       - key: DATABASE_URL
