@@ -2,8 +2,7 @@ services:
   - type: web
     name: regushield-api-mike-v2
     runtime: docker
-    dockerContext: .
-    dockerfilePath: backend/Dockerfile
+    dockerContext: backend
     dockerCommand: uvicorn app.main:app --host 0.0.0.0 --port 10000
     plan: starter
     envVars:
