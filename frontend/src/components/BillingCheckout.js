@@ -82,6 +82,10 @@ export default function BillingCheckout() {
 
   const activePlan = plans[selectedPlan];
 
+  const stripeFee = activePlan.price * 0.029 + 0.20;
+  const gcFee = Math.min(activePlan.price * 0.01, 2.00);
+  const savings = (stripeFee - gcFee).toFixed(2);
+
   const handleCheckout = async (e) => {
     e.preventDefault();
     if (!email) {

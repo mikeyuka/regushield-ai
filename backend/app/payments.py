@@ -91,7 +91,7 @@ def create_gocardless_billing_request(amount_gbp: int, email: str) -> dict:
 
     mock_br_id = f"BRQ_{uuid.uuid4().hex[:12].upper()}"
     mock_flow_id = f"BRF_{uuid.uuid4().hex[:12].upper()}"
-    mock_redirect_url = f"https://pay.gocardless.com/flow/{mock_flow_id}?email={email}&amount={amount_gbp}"
+    mock_redirect_url = f"https://pay.gocardless.com/flow/{mock_flow_id}?email={email}&amount={amount_usd}"
     return {
         "billing_request_id": mock_br_id,
         "redirect_url": mock_redirect_url,
