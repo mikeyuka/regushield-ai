@@ -30,6 +30,7 @@ Configure the following environment variables in your hosting provider's dashboa
 3. **Plan**: Select a plan (Standard or higher recommended for production).
 4. **Environment Variables**: Add the variables from step 2.
 5. **Auto-Deploy**: Enabled.
+6. **Service URL**: `https://regushield-api-v2-python.onrender.com`
 
 ### Celery Worker (Background Worker)
 1. **Service Type**: `Background Worker`.
