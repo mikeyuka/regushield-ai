@@ -13,7 +13,7 @@ import {
 } from 'lucide-react';
 
 const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:8000';
-const STRIPE_PK = import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY || 'pk_test_51TnvNtBqjDN4EbZhsxi2TkEmhucllMjFUknKnsvPMTlfOLpcs3rEyTgAWiwD1WQ26wyM9KzjyVC8ktpHVAAGpUv300uqOiEzSR';
+const STRIPE_PK = import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY || 'pk_live_51To2Y8DOkFBtO2AK7UoTdAymPZNW645OamAcFqm40IcjZ5cysCM58obJaWgWC41RzMue8fsvsq9e1y4JzvUP5mHL00aUk3phAG';
 
 export default function BillingCheckout() {
   const [email, setEmail] = useState('mikeukaria@yahoo.com');
@@ -31,6 +31,7 @@ export default function BillingCheckout() {
       name: 'Starter Plan',
       price: 199,
       period: 'one-time',
+      priceId: 'price_1To4N5DOkFBtO2AKE76CmQr9',
       description: 'Perfect for small businesses needing a one-off compliance validation.',
       benefits: [
         'Single UK REACH threshold validation',
@@ -44,6 +45,7 @@ export default function BillingCheckout() {
       name: 'Professional Tier',
       price: 199,
       period: 'month',
+      priceId: 'price_1To4N5DOkFBtO2AK3rVDGQce',
       description: 'Continuous monitoring for active product lines with regulatory change alerts.',
       benefits: [
         'Everything in Starter included',
@@ -57,6 +59,7 @@ export default function BillingCheckout() {
       name: 'Growth Acceleration',
       price: 499,
       period: 'month',
+      priceId: 'price_1To4N6DOkFBtO2AK425jdmCv',
       description: 'Advanced compliance management for scaling global supply chains.',
       benefits: [
         'Everything in Professional included',
@@ -70,6 +73,7 @@ export default function BillingCheckout() {
       name: 'Enterprise Solutions',
       price: 1499,
       period: 'month',
+      priceId: 'price_1To4N7DOkFBtO2AKa3MDun9V',
       description: 'Full-scale regulatory automation and managed compliance infrastructure.',
       benefits: [
         'Everything in Growth included',
