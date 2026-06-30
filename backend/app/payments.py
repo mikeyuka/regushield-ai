@@ -13,11 +13,11 @@ except ImportError:
     gocardless_pro = None
 
 
-def create_stripe_payment_intent(amount_gbp: int, email: str) -> dict:
+def create_stripe_payment_intent(amount_usd: int, email: str) -> dict:
     """
     Sets up Stripe Intent structure or fallback mock.
     """
-    amount_cents = amount_gbp * 100
+    amount_cents = amount_usd * 100
     
     if stripe and settings.STRIPE_SECRET_KEY:
         try:
@@ -50,11 +50,11 @@ def create_stripe_payment_intent(amount_gbp: int, email: str) -> dict:
     }
 
 
-def create_gocardless_billing_request(amount_gbp: int, email: str) -> dict:
+def create_gocardless_billing_request(amount_usd: int, email: str) -> dict:
     """
     Sets up GoCardless Billing Request flow or fallback mock.
     """
-    amount_pence = amount_gbp * 100
+    amount_pence = amount_usd * 100
     
     if gocardless_pro and settings.GOCARDLESS_ACCESS_TOKEN:
         try:

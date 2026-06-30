@@ -382,7 +382,7 @@ export default function BillingCheckout() {
               <div className="border-t border-slate-800/85 pt-2 flex items-center justify-between text-[11px] font-semibold text-emerald-400/90">
                 <span>Total Savings on this checkout:</span>
                 <span className="bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">
-                  ${(activePlan.price * 0.019 - 0.20).toFixed(2) > 0 ? (activePlan.price * 0.019 - 0.2).toFixed(2) : '1.49'} saved!
+                  ${savings} saved!
                 </span>
               </div>
             </div>
