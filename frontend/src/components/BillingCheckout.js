@@ -17,7 +17,7 @@ const STRIPE_PK = import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY || 'pk_test_51TnvN
 
 export default function BillingCheckout() {
   const [email, setEmail] = useState('mikeukaria@yahoo.com');
-  const [selectedPlan, setSelectedPlan] = useState('blueprint'); // 'blueprint' or 'monitoring'
+  const [selectedPlan, setSelectedPlan] = useState('professional'); // 'starter', 'professional', 'growth', or 'enterprise'
   const [paymentMethod, setPaymentMethod] = useState('gocardless'); // 'stripe' or 'gocardless'
   
   const [loading, setLoading] = useState(false);
@@ -213,7 +213,7 @@ export default function BillingCheckout() {
                       : 'border-slate-850 bg-[#0F172A] hover:border-slate-700 hover:bg-[#131F37]'
                   }`}
                 >
-                  {plan.id === 'monitoring' && (
+                  {plan.id === 'professional' && (
                     <div className="absolute top-0 right-0 bg-emerald-500 text-slate-950 text-[9px] font-extrabold px-2 py-0.5 rounded-bl-md uppercase tracking-wider flex items-center space-x-0.5">
                       <Sparkles className="h-2 w-2 fill-current" />
                       <span>Recommended</span>
@@ -227,7 +227,7 @@ export default function BillingCheckout() {
                   </div>
                   <div>
                     <div className="flex items-baseline space-x-1 border-t border-slate-800/85 pt-2.5 mt-1">
-                      <span className="text-2xl font-black text-white">£{plan.price}</span>
+                      <span className="text-2xl font-black text-white">${plan.price}</span>
                       <span className="text-[10px] text-slate-400 font-bold">
                         {plan.period === 'one-time' ? '/ instant access' : ` / ${plan.period}`}
                       </span>
@@ -369,11 +369,11 @@ export default function BillingCheckout() {
             <div className="space-y-3 bg-[#0F172A]/70 border border-slate-800/80 rounded-xl p-4 text-xs">
               <div className="flex justify-between items-center pb-2 border-b border-slate-850">
                 <span className="text-slate-400 font-medium">Stripe Credit Card fee:</span>
-                <span className="text-rose-400 font-bold">2.9% + £0.20</span>
+                <span className="text-rose-400 font-bold">2.9% + $0.20</span>
               </div>
               <div className="flex justify-between items-center">
                 <span className="text-slate-400 font-medium">GoCardless Direct Debit fee:</span>
-                <span className="text-emerald-400 font-bold">1.0% (Capped at £2.00)</span>
+                <span className="text-emerald-400 font-bold">1.0% (Capped at $2.00)</span>
               </div>
               <div className="border-t border-slate-800/85 pt-2 flex items-center justify-between text-[11px] font-semibold text-emerald-400/90">
                 <span>Total Savings on this checkout:</span>
@@ -408,7 +408,7 @@ export default function BillingCheckout() {
                 <CreditCard className="h-10 w-10 text-slate-700 mx-auto mb-3" />
                 <p className="text-xs font-semibold">Select a plan & initialize secure checkout</p>
                 <p className="text-[10px] text-slate-600 mt-1">
-                  Active tier: <strong className="text-slate-400">£{activePlan.price} {activePlan.name}</strong>
+                  Active tier: <strong className="text-slate-400">${activePlan.price} {activePlan.name}</strong>
                 </p>
               </div>
             )}
@@ -432,7 +432,7 @@ export default function BillingCheckout() {
                     </div>
                     <div className="flex justify-between">
                       <span className="text-slate-400">Payable Amount:</span>
-                      <span className="font-extrabold text-white">£{checkoutResult.amount}.00</span>
+                      <span className="font-extrabold text-white">${checkoutResult.amount}.00</span>
                     </div>
                     {checkoutResult.gateway === 'stripe' ? (
                       <div className="flex justify-between">
@@ -554,10 +554,6 @@ export default function BillingCheckout() {
           </div>
         </div>
       </div>
-    </div>
-  );
-}
-    </div>
     </div>
   );
 }
