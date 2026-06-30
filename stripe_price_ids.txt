@@ -1,0 +1,5 @@
+REGUSHIELD STRIPE PRICE IDs
+Starter Plan: price_1To1eaBqjDN4EbZhovLLn704
+Professional Tier: price_1To1ebBqjDN4EbZh75TaSd8h
+Growth Acceleration: price_1To1ecBqjDN4EbZhoF4i3Dhb
+Enterprise Solutions: price_1To1ecBqjDN4EbZhpbIDmRoX

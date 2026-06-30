@@ -26,32 +26,56 @@ export default function BillingCheckout() {
   const [paymentSuccess, setPaymentSuccess] = useState(false);
 
   const plans = {
-    blueprint: {
-      id: 'blueprint',
-      name: 'One-time Compliance Blueprint',
-      price: 149,
+    starter: {
+      id: 'starter',
+      name: 'Starter Plan',
+      price: 199,
       period: 'one-time',
-      description: 'Comprehensive regulatory validation and production-ready compliance handbook PDF.',
+      description: 'Perfect for small businesses needing a one-off compliance validation.',
       benefits: [
-        'Complete UK REACH threshold validation check',
-        'Instant OCR extraction of raw SDS documents',
-        'Fully-annotated chemical composition report',
-        'Direct download of verified compliance blueprint',
-        '14-day revisions and expert review'
+        'Single UK REACH threshold validation',
+        'OCR extraction of raw SDS documents',
+        'Verified compliance blueprint download',
+        '7-day revision support'
       ]
     },
-    monitoring: {
-      id: 'monitoring',
-      name: 'Monthly Regulatory Monitoring',
-      price: 39,
+    professional: {
+      id: 'professional',
+      name: 'Professional Tier',
+      price: 199,
       period: 'month',
-      description: 'Continuous scanning of global regulatory registries and automated supply chain compliance alerts.',
+      description: 'Continuous monitoring for active product lines with regulatory change alerts.',
       benefits: [
-        'Everything in One-time Blueprint included',
-        'Daily database sync with REACH & GDPR registries',
-        'Unlimited document parsing and validation runs',
-        'Automated immediate compliance alert logs',
-        'Priority Slack and email developer support'
+        'Everything in Starter included',
+        'Daily database sync with REACH registries',
+        'Automated compliance drift alerts',
+        'Email developer support'
+      ]
+    },
+    growth: {
+      id: 'growth',
+      name: 'Growth Acceleration',
+      price: 499,
+      period: 'month',
+      description: 'Advanced compliance management for scaling global supply chains.',
+      benefits: [
+        'Everything in Professional included',
+        'Unlimited document parsing and validation',
+        'Multi-market destination validation (UK/EU/US)',
+        'Priority Slack support channel'
+      ]
+    },
+    enterprise: {
+      id: 'enterprise',
+      name: 'Enterprise Solutions',
+      price: 1499,
+      period: 'month',
+      description: 'Full-scale regulatory automation and managed compliance infrastructure.',
+      benefits: [
+        'Everything in Growth included',
+        'Custom API integration and webhooks',
+        'Dedicated compliance expert review',
+        'SSO and advanced team permissions'
       ]
     }
   };
@@ -354,7 +378,7 @@ export default function BillingCheckout() {
               <div className="border-t border-slate-800/85 pt-2 flex items-center justify-between text-[11px] font-semibold text-emerald-400/90">
                 <span>Total Savings on this checkout:</span>
                 <span className="bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">
-                  £{(activePlan.price * 0.019 - 0.20).toFixed(2) > 0 ? (activePlan.price * 0.019 - 0.2).toFixed(2) : '1.49'} saved!
+                  ${(activePlan.price * 0.019 - 0.20).toFixed(2) > 0 ? (activePlan.price * 0.019 - 0.2).toFixed(2) : '1.49'} saved!
                 </span>
               </div>
             </div>
@@ -530,6 +554,10 @@ export default function BillingCheckout() {
           </div>
         </div>
       </div>
+    </div>
+  );
+}
+    </div>
     </div>
   );
 }

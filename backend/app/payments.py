@@ -23,7 +23,7 @@ def create_stripe_payment_intent(amount_gbp: int, email: str) -> dict:
         try:
             intent = stripe.PaymentIntent.create(
                 amount=amount_cents,
-                currency="gbp",
+                currency="usd",
                 receipt_email=email,
                 metadata={"email": email}
             )
@@ -44,7 +44,7 @@ def create_stripe_payment_intent(amount_gbp: int, email: str) -> dict:
         "id": mock_id,
         "client_secret": mock_client_secret,
         "amount": amount_cents,
-        "currency": "gbp",
+        "currency": "usd",
         "status": "requires_payment_method",
         "mode": "mock"
     }
@@ -66,7 +66,7 @@ def create_gocardless_billing_request(amount_gbp: int, email: str) -> dict:
                 params={
                     "payment_request": {
                         "amount": str(amount_pence),
-                        "currency": "GBP",
+                        "currency": "USD",
                         "description": "ReguShield Compliance Billing"
                     }
                 }
