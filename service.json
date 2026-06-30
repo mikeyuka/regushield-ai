@@ -1,0 +1,22 @@
+{
+  "type": "web_service",
+  "name": "regushield-python-test",
+  "repo": "https://github.com/mikeyuka/regushield-ai",
+  "branch": "main",
+  "ownerId": "tea-d90i92jsq97s739dvba0",
+  "serviceDetails": {
+    "env": "python",
+    "plan": "starter",
+    "region": "oregon",
+    "envSpecificDetails": {
+      "buildCommand": "pip install -r backend/requirements.txt",
+      "startCommand": "cd backend && uvicorn app.main:app --host 0.0.0.0 --port 10000"
+    },
+    "envVars": [
+      {
+        "key": "DATABASE_URL",
+        "value": "postgresql://regushield_db_mike_v2_user:RLvpUqby3vs86edQf7kp87nde3DMSL9C@dpg-d91ni17avr4c73fnvdlg-a/regushield_db_mike_v2"
+      }
+    ]
+  }
+}
