@@ -15,8 +15,8 @@ import {
 const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:8000';
 const STRIPE_PK = import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY || 'pk_live_51To2Y8DOkFBtO2AK7UoTdAymPZNW645OamAcFqm40IcjZ5cysCM58obJaWgWC41RzMue8fsvsq9e1y4JzvUP5mHL00aUk3phAG';
 
-export default function BillingCheckout() {
-  const [email, setEmail] = useState('mikeukaria@yahoo.com');
+export default function BillingCheckout({ userEmail = '' }) {
+  const [email, setEmail] = useState(userEmail || 'customer@company.com');
   const [selectedPlan, setSelectedPlan] = useState('professional'); // 'starter', 'professional', 'growth', or 'enterprise'
   const [paymentMethod, setPaymentMethod] = useState('gocardless'); // 'stripe' or 'gocardless'
   
@@ -29,7 +29,7 @@ export default function BillingCheckout() {
     starter: {
       id: 'starter',
       name: 'Starter Plan',
-      price: 199,
+      price: 99,
       period: 'one-time',
       priceId: 'price_1To4N5DOkFBtO2AKE76CmQr9',
       description: 'Perfect for small businesses needing a one-off compliance validation.',
