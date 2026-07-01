@@ -205,6 +205,23 @@ def get_document_status(document_id: str):
         db.close()
 
 
+class CheckoutRequest(BaseModel):
+    priceId: str
+    email: str
+    mode: str = "subscription"
+
+@app.post(f"{settings.API_V1_STR}/payments/stripe/create-checkout-session")
+def stripe_create_checkout_session(payload: CheckoutRequest):
+    try:
+        from app.payments import create_stripe_checkout_session
+        res = create_stripe_checkout_session(payload.priceId, payload.email, payload.mode)
+        return {
+            "url": res["url"]
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
 @app.post(f"{settings.API_V1_STR}/payments/stripe/create-intent")
 def stripe_create_intent(payload: PaymentRequest):
     try:

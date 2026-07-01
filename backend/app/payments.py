@@ -13,6 +13,41 @@ except ImportError:
     gocardless_pro = None
 
 
+def create_stripe_checkout_session(price_id: str, email: str, mode: str = "subscription") -> dict:
+    """
+    Creates a real Stripe Checkout Session for the provided price_id.
+    """
+    if stripe and settings.STRIPE_SECRET_KEY:
+        try:
+            # Success and Cancel URLs - Update to your production frontend domain
+            # We derive from current origin or use a reasonable default
+            domain = "https://regushield-ai.vercel.app"
+            
+            session = stripe.checkout.Session.create(
+                customer_email=email,
+                line_items=[{
+                    'price': price_id,
+                    'quantity': 1,
+                }],
+                mode=mode,
+                success_url=f"{domain}/billing?success=true&session_id={{CHECKOUT_SESSION_ID}}",
+                cancel_url=f"{domain}/billing?canceled=true",
+            )
+            return {
+                "id": session.id,
+                "url": session.url
+            }
+        except Exception as e:
+            print(f"Stripe Checkout error: {str(e)}")
+            raise e
+            
+    # Fallback/Mock logic for sandbox/offline
+    return {
+        "id": f"cs_mock_{uuid.uuid4().hex[:16]}",
+        "url": f"https://checkout.stripe.com/pay/mock_session_{uuid.uuid4().hex[:8]}"
+    }
+
+
 def create_stripe_payment_intent(amount_usd: int, email: str) -> dict:
     """
     Sets up Stripe Intent structure or fallback mock.

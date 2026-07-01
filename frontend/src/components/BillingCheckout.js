@@ -103,26 +103,25 @@ export default function BillingCheckout({ userEmail = '' }) {
     setPaymentSuccess(false);
 
     const amount = activePlan.price;
+    const priceId = activePlan.priceId;
+    const mode = activePlan.period === 'one-time' ? 'payment' : 'subscription';
 
     try {
       if (paymentMethod === 'stripe') {
-        const response = await fetch(`${API_BASE}/api/v1/payments/stripe/create-intent`, {
+        const response = await fetch(`${API_BASE}/api/v1/payments/stripe/create-checkout-session`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ amount, email })
+          body: JSON.stringify({ priceId, email, mode })
         });
         
         if (!response.ok) {
-          throw new Error('Stripe gateway response failed.');
+          throw new Error('Stripe Checkout Session creation failed.');
         }
 
         const data = await response.json();
-        setCheckoutResult({
-          gateway: 'stripe',
-          clientSecret: data.client_secret,
-          amount,
-          email
-        });
+        // Redirect to real Stripe Checkout page
+        window.location.href = data.url;
+        return; // Redirecting...
       } else {
         const response = await fetch(`${API_BASE}/api/v1/payments/gocardless/create-request`, {
           method: 'POST',
@@ -443,9 +442,9 @@ export default function BillingCheckout({ userEmail = '' }) {
                       <span className="font-extrabold text-white">${checkoutResult.amount}.00</span>
                     </div>
                     {checkoutResult.gateway === 'stripe' ? (
-                      <div className="flex justify-between">
-                        <span className="text-slate-400">Client Secret:</span>
-                        <span className="font-mono text-[10px] text-[#8F87FF] truncate max-w-[120px]">{checkoutResult.clientSecret}</span>
+                      <div className="flex flex-col items-center justify-center py-6 space-y-4">
+                        <Loader2 className="h-8 w-8 animate-spin text-[#8F87FF]" />
+                        <p className="text-xs text-slate-400">Redirecting to Secure Stripe Checkout...</p>
                       </div>
                     ) : (
                       <>
@@ -469,63 +468,26 @@ export default function BillingCheckout({ userEmail = '' }) {
                   </div>
                 </div>
 
-                {/* Sub-form simulator */}
-                <div className="bg-[#111C2C] border border-[#1E2E4A] p-4 rounded-xl space-y-3 text-xs">
-                  {checkoutResult.gateway === 'stripe' ? (
-                    <>
-                      <h4 className="font-bold text-white flex items-center space-x-1.5">
-                        <CreditCard className="h-3.5 w-3.5 text-[#8F87FF]" />
-                        <span>Secure Card Payment Details</span>
-                      </h4>
-                      <div className="space-y-2">
-                        <input
-                          type="text"
-                          placeholder="Card Number: 4242 •••• •••• 4242"
-                          disabled
-                          className="w-full px-2.5 py-1.5 bg-[#0A111F] border border-slate-700 rounded text-[11px] text-slate-300"
-                        />
-                        <div className="grid grid-cols-2 gap-2">
-                          <input
-                            type="text"
-                            placeholder="MM/YY: 12/28"
-                            disabled
-                            className="w-full px-2.5 py-1.5 bg-[#0A111F] border border-slate-700 rounded text-[11px] text-slate-300"
-                          />
-                          <input
-                            type="text"
-                            placeholder="CVC: 123"
-                            disabled
-                            className="w-full px-2.5 py-1.5 bg-[#0A111F] border border-slate-700 rounded text-[11px] text-slate-300"
-                          />
-                        </div>
-                      </div>
-                      <button
-                        onClick={handleSimulatePaymentComplete}
-                        className="w-full py-2 bg-[#635BFF] hover:bg-[#534AD9] text-white rounded text-[11px] font-bold transition-colors"
-                      >
-                        Simulate Stripe Charge Success
-                      </button>
-                    </>
-                  ) : (
-                    <>
-                      <h4 className="font-bold text-white flex items-center space-x-1.5">
-                        <Building className="h-3.5 w-3.5 text-emerald-400" />
-                        <span>GoCardless Mandate Settlement</span>
-                      </h4>
-                      <div className="space-y-1 bg-[#0A111F] p-2.5 rounded border border-slate-800 text-[10px] text-slate-400 leading-relaxed">
-                        <p>✓ Automated Direct Debit Mandate will be registered.</p>
-                        <p>✓ Backed by GoCardless Direct Debit Guarantee.</p>
-                        <p>✓ Transparent bank clearing timelines (2-3 business days).</p>
-                      </div>
-                      <button
-                        onClick={handleSimulatePaymentComplete}
-                        className="w-full py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded text-[11px] font-bold transition-colors"
-                      >
-                        Simulate Mandate Approval
-                      </button>
-                    </>
-                  )}
-                </div>
+                {/* Sub-form simulator only for GoCardless */}
+                {checkoutResult.gateway === 'gocardless' && (
+                  <div className="bg-[#111C2C] border border-[#1E2E4A] p-4 rounded-xl space-y-3 text-xs">
+                    <h4 className="font-bold text-white flex items-center space-x-1.5">
+                      <Building className="h-3.5 w-3.5 text-emerald-400" />
+                      <span>GoCardless Mandate Settlement</span>
+                    </h4>
+                    <div className="space-y-1 bg-[#0A111F] p-2.5 rounded border border-slate-800 text-[10px] text-slate-400 leading-relaxed">
+                      <p>✓ Automated Direct Debit Mandate will be registered.</p>
+                      <p>✓ Backed by GoCardless Direct Debit Guarantee.</p>
+                      <p>✓ Transparent bank clearing timelines (2-3 business days).</p>
+                    </div>
+                    <button
+                      onClick={handleSimulatePaymentComplete}
+                      className="w-full py-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded text-[11px] font-bold transition-colors"
+                    >
+                      Simulate Mandate Approval
+                    </button>
+                  </div>
+                )}
               </div>
             )}
 
